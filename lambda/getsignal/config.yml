@@ -1,0 +1,24 @@
+---
+# Change the profile and region to suit your application
+profile: default
+region: us-east-1
+iam:
+  # In this case, we are using an existing managed policy so we just
+  # need to put the name of that policy here.
+  policy:
+    name: dynamoreader
+  # The name of the IAM role used for executing the Lambda function.
+  # The policy listed above will be attached to this role once it is created.
+  role:
+    name: batsignalreader
+lambda:
+  name: GetSignal
+  zipfile_name: GetSignal.zip
+  description: batsignal get index of signals
+  path: getsignal
+  handler: getsignal.lambda_handler
+  runtime: python2.7
+  memory_size: 128
+  timeout: 60
+  event_sources: []
+  test_data: input.json

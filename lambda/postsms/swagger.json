@@ -1,0 +1,75 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "sms4"
+    },
+    "consumes": [
+	"application/json"
+    ],
+    "produces": [
+	"application/json"
+    ],
+    "paths": {
+        "/sms4": {
+            "post": {
+                "description": "Sends a message to the supplied group\n",
+                "parameters": [
+                    {
+                        "name": "Body",
+                        "in": "query",
+                        "description": "Text of the message",
+                        "required": true,
+                        "type": "string",
+                        "format": "string"
+                    },
+                    {
+                        "name": "From",
+                        "in": "query",
+                        "description": "Originating phone number",
+                        "required": true,
+                        "type": "string",
+                        "format": "string"
+                    },
+                    {
+                        "name": "To",
+                        "in": "query",
+                        "description": "Receiving phone number to be matched to a group",
+                        "required": true,
+                        "type": "string",
+                        "format": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    }
+                },
+                "x-amazon-apigateway-auth": {
+                    "type": "none"
+                },
+                "x-amazon-apigateway-integration": {
+                    "type": "AWS",
+		    "uri": "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:736483223819:function:SMS/invocations",
+                    "credentials": "none",
+		    "httpMethod": "POST",
+                    "requestTemplates": {
+                        "application/json": "{\"user_key\":\"$input.params('user_key')\",\"resourcePath\":\"$context.resourcePath\",\"httpMethod\":\"$context.httpMethod\",\"body\":\"$input.json('$')\",\"message\":\"$input.params('Body')\",\"from\":\"$input.params('From')\",\"to\":\"$input.params('To')\"}"
+                    },
+                    "requestParameters": {},
+                    "cacheNamespace": "cache-namespace",
+                    "cacheKeyParameters": [],
+                    "responses": {
+                        "default": {
+                            "statusCode": "200",
+                            "responseParameters": {},
+                            "responseTemplates": {
+                                "application/json": null
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
