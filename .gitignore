@@ -2,3 +2,5 @@
 *.pyc
 *.o
 pylibs/
+*.tar.z
+*.zip
